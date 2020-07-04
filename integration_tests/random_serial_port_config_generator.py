@@ -15,6 +15,21 @@ class RandomSerialPortConfigGenerator:
     _parity_choices = ['none', 'odd', 'even']
     _stop_bits_choices = [1, 1.5, 2]
 
+    def generate_device_data(self):
+        device_data = {}
+        device_data['device_name'] =\
+            self._random_generator.generate_string(2, 10) 
+        device_data['log_file'] = self._generate_random_path() 
+        device_data['driver'] = self._generate_random_path() 
+        device_data['baud_rate'] = self._random_choose(self._baud_rate_choices) 
+        device_data['flow_control'] =\
+            self._random_choose(self._flow_control_choices) 
+        device_data['parity'] = self._random_choose(self._parity_choices) 
+        device_data['stop_bits'] = self._random_choose(self._stop_bits_choices) 
+        device_data['character_size'] =\
+            self._random_generator.generate_int(8, 100)
+        return device_data
+
     def generate(self):
         _file_name = self._random_generator.generate_string(2, 10)
         number_of_device =  self._random_generator.generate_int(1, 100)

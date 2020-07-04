@@ -1,4 +1,5 @@
 import os
+import random
 
 from django.test import TestCase
 
@@ -19,6 +20,7 @@ class TestSerialPortConfigurationModel(TestCase):
         self._random_model_generator = RandomSerialPortConfigGenerator()
         (self._config_file, self._model_content) =\
             self._random_model_generator.generate()
+        self._serial_ports = self._model_content['serial_ports'] 
         self._capture_data_access = SerialPortConfigModel._data_access 
         SerialPortConfigModel._data_access =\
             SerialPortConfigDataAccess(self._config_file)
@@ -27,22 +29,39 @@ class TestSerialPortConfigurationModel(TestCase):
         SerialPortConfigModel._data_access = self._capture_data_access
         os.remove(self._config_file)
 
+    def assert_device_configs_equal_to(self, device, configs):
+        assert_that(device.log_file, equal_to(configs['log_file']))
+        assert_that(device.driver, equal_to(configs['driver']))
+        assert_that(device.baud_rate, equal_to(configs['baud_rate']))
+        assert_that(device.flow_control, 
+            equal_to(configs['flow_control']))
+        assert_that(device.parity, equal_to(configs['parity']))
+        assert_that(device.stop_bits, equal_to(configs['stop_bits']))
+        assert_that(device.character_size, 
+            equal_to(configs['character_size']))
+
     def test_all_function_of_obecjts(self):
         devices = SerialPortConfigModel.objects.all()
         
         for device in devices:
-            serial_ports = self._model_content['serial_ports'] 
-            assert_that(device.device_name, is_in(serial_ports))
+            assert_that(device.device_name, is_in(self._serial_ports))
+            device_configs = self._serial_ports[device.device_name]
+            self.assert_device_configs_equal_to(device, device_configs)
 
-            device_configs =\
-                self._model_content['serial_ports'][device.device_name]
-            assert_that(device.log_file, equal_to(device_configs['log_file']))
-            assert_that(device.driver, equal_to(device_configs['driver']))
-            assert_that(device.baud_rate, equal_to(device_configs['baud_rate']))
-            assert_that(device.flow_control, 
-                equal_to(device_configs['flow_control']))
-            assert_that(device.parity, equal_to(device_configs['parity']))
-            assert_that(device.stop_bits, equal_to(device_configs['stop_bits']))
-            assert_that(device.character_size, 
-                equal_to(device_configs['character_size']))
-        
+    def test_get_function_of_objects(self):
+        random_device_name = random.choice(list(self._serial_ports.keys()))
+        device = SerialPortConfigModel.objects.get(random_device_name)
+        device_configs = self._serial_ports[random_device_name]
+        self.assert_device_configs_equal_to(device, device_configs)
+
+    def test_create_function_of_objects(self):
+        random_device_data = self._random_model_generator.generate_device_data()
+        device = SerialPortConfigModel.objects.create(random_device_data)
+
+        assert_that(random_device_data['device_name'], 
+            equal_to(device.device_name))
+        self.assert_device_configs_equal_to(device, random_device_data)
+
+        device = SerialPortConfigModel.objects.get(
+            random_device_data['device_name'])
+        self.assert_device_configs_equal_to(device, random_device_data)

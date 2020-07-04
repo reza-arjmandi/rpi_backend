@@ -1,5 +1,7 @@
 from modules.serial_port_logger.models.serial_port_config_data_access import\
     SerialPortConfigDataAccess
+from modules.serial_port_logger.models.serial_port_device import\
+    SerialPortDevice
 
 class SerialPortConfigModel:
     _data_access = SerialPortConfigDataAccess('config.json')
