@@ -3,17 +3,13 @@ import json
 import random
 
 from modules.test.random_generator import RandomGenerator
+from modules.serial_port_logger.models.serial_port_config_model import\
+    SerialPortConfigModel
 
 class RandomSerialPortConfigGenerator:
 
     _random_generator = RandomGenerator()
     _model_contetnt = {'serial_ports': {}}
-    _baud_rate_choices = [
-        110, 300, 600, 1200, 2400, 4800, 9600, 14400, 
-        19200, 38400, 57600, 115200, 128000, 256000]
-    _flow_control_choices = ['hardware', 'software', 'none']
-    _parity_choices = ['none', 'odd', 'even']
-    _stop_bits_choices = [1, 1.5, 2]
 
     def generate_device_data(self):
         device_data = {}
@@ -21,11 +17,14 @@ class RandomSerialPortConfigGenerator:
             self._random_generator.generate_string(2, 10) 
         device_data['log_file'] = self._generate_random_path() 
         device_data['driver'] = self._generate_random_path() 
-        device_data['baud_rate'] = self._random_choose(self._baud_rate_choices) 
+        device_data['baud_rate'] =\
+            self._random_choose(SerialPortConfigModel.baud_rate_choices) 
         device_data['flow_control'] =\
-            self._random_choose(self._flow_control_choices) 
-        device_data['parity'] = self._random_choose(self._parity_choices) 
-        device_data['stop_bits'] = self._random_choose(self._stop_bits_choices) 
+            self._random_choose(SerialPortConfigModel.flow_control_choices) 
+        device_data['parity'] =\
+            self._random_choose(SerialPortConfigModel.parity_choices) 
+        device_data['stop_bits'] =\
+            self._random_choose(SerialPortConfigModel.stop_bits_choices) 
         device_data['character_size'] =\
             self._random_generator.generate_int(8, 100)
         return device_data
@@ -41,13 +40,13 @@ class RandomSerialPortConfigGenerator:
             self._model_contetnt['serial_ports'][device_name]['driver'] =\
                 self._generate_random_path()
             self._model_contetnt['serial_ports'][device_name]['baud_rate'] =\
-                self._random_choose(self._baud_rate_choices)
+                self._random_choose(SerialPortConfigModel.baud_rate_choices)
             self._model_contetnt['serial_ports'][device_name]['flow_control'] =\
-                self._random_choose(self._flow_control_choices)
+                self._random_choose(SerialPortConfigModel.flow_control_choices)
             self._model_contetnt['serial_ports'][device_name]['parity'] =\
-                self._random_choose(self._parity_choices)
+                self._random_choose(SerialPortConfigModel.parity_choices)
             self._model_contetnt['serial_ports'][device_name]['stop_bits'] =\
-                self._random_choose(self._stop_bits_choices)
+                self._random_choose(SerialPortConfigModel.stop_bits_choices)
             self._model_contetnt['serial_ports'][device_name][
                 'character_size'] = self._random_generator.generate_int(8, 100)
         self._save_content(_file_name)

@@ -5,6 +5,13 @@ from modules.serial_port_logger.models.serial_port_device import\
 
 class SerialPortConfigModel:
     _data_access = SerialPortConfigDataAccess('config.json')
+
+    baud_rate_choices = [
+        110, 300, 600, 1200, 2400, 4800, 9600, 14400, 
+        19200, 38400, 57600, 115200, 128000, 256000]
+    flow_control_choices = ['hardware', 'software', 'none']
+    parity_choices = ['none', 'odd', 'even']
+    stop_bits_choices = [1, 1.5, 2]
     
     class objects:
 

@@ -62,6 +62,6 @@ class TestSerialPortConfigurationModel(TestCase):
             equal_to(device.device_name))
         self.assert_device_configs_equal_to(device, random_device_data)
 
-        device = SerialPortConfigModel.objects.get(
+        saved_device = SerialPortConfigModel.objects.get(
             random_device_data['device_name'])
-        self.assert_device_configs_equal_to(device, random_device_data)
+        self.assert_device_configs_equal_to(saved_device, random_device_data)
