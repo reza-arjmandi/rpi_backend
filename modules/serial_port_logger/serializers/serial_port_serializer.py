@@ -23,6 +23,7 @@ class SerialPortSerializer(serializers.Serializer):
         return SerialPortConfigModel.objects.create(validated_data)
 
     def update(self, instance, validated_data):
+        instance.delete()
         instance.device_name = validated_data.get(
             'device_name', instance.device_name)
         instance.log_file = validated_data.get('log_file', instance.log_file)
