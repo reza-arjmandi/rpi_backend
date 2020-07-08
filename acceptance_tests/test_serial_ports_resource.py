@@ -11,7 +11,6 @@ from hamcrest import assert_that
 from hamcrest import equal_to
 from hamcrest import is_in
 from hamcrest import contains_inanyorder
-from hamcrest import contains
 
 from integration_tests.random_serial_port_config_generator import\
     RandomSerialPortConfigGenerator

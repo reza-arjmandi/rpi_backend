@@ -1,0 +1,22 @@
+{
+    "serial_ports": {
+        "compass": {
+            "log_file": "/home/pi/gps_compass_logger/compass_log_file.txt",
+            "driver": "/dev/ttyUSB1",
+            "baud_rate": "9600",
+            "flow_control": "none",
+            "parity": "none",
+            "stop_bits": "1",
+            "character_size": "8"
+        },
+        "gps": {
+            "log_file": "/home/pi/gps_compass_logger/gps_log_file.txt",
+            "driver": "/dev/ttyUSB0",
+            "baud_rate": "9600",
+            "flow_control": "none",
+            "parity": "none",
+            "stop_bits": "1",
+            "character_size": "8"
+        }
+    }
+}
