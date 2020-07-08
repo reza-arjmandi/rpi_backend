@@ -11,6 +11,7 @@ class SerialPortDevice:
 
     def __init__(self, data_access):
         self._data_access = data_access
+        
 
     def save(self):
         self._data_access.insert_or_update(self)
