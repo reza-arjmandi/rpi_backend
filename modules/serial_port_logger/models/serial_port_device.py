@@ -1,4 +1,6 @@
 
+from modules.serial_port_logger.models.log_file_model import LogFileModel
+
 class SerialPortDevice:
     device_name = None
     log_file = None
@@ -36,3 +38,6 @@ class SerialPortDevice:
 
     def delete(self):
         self._data_access.delete(self)
+        log_file = LogFileModel.objects.get(self.device_name)
+        log_file.delete()
+

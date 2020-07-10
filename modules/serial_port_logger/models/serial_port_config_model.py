@@ -3,6 +3,8 @@ from modules.serial_port_logger.models.serial_port_config_data_access import\
 from modules.serial_port_logger.models.serial_port_device import\
     SerialPortDevice
 
+from modules.serial_port_logger.models.log_file_model import LogFileModel
+
 class SerialPortConfigModel:
     _data_access = SerialPortConfigDataAccess('config.json')
 
@@ -18,7 +20,13 @@ class SerialPortConfigModel:
         def create(data):
             device = SerialPortDevice(SerialPortConfigModel._data_access)
             device.device_name = data['device_name']
-            device.log_file = data['log_file']
+
+            log_file_data = {}
+            log_file_data['device_name'] = data['device_name']
+            log_file = LogFileModel.objects.create(log_file_data)
+            log_file.save()
+
+            device.log_file = log_file.file_path
             device.driver = data['driver']
             device.baud_rate = data['baud_rate']
             device.flow_control = data['flow_control']

@@ -6,7 +6,7 @@ class SerialPortSerializer(serializers.Serializer):
     device_name = serializers.CharField(
         required=True, allow_blank=False, max_length=100)
     log_file = serializers.CharField(
-        required=True, allow_blank=False, max_length=100)
+        read_only=True, max_length=100)
     driver = serializers.CharField(
         required=True, allow_blank=False, max_length=100)
     baud_rate = serializers.ChoiceField(
