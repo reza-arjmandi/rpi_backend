@@ -15,8 +15,7 @@ from hamcrest import contains_inanyorder
 from integration_tests.random_serial_port_config_generator import\
     RandomSerialPortConfigGenerator
 from modules.test.random_generator import RandomGenerator
-from modules.serial_port_logger.models.serial_port_config_model import\
-    SerialPortConfigModel
+from serial_port_logger.models import SerialPortConfigModel
 from modules.serial_port_logger.models.serial_port_config_data_access import\
     SerialPortConfigDataAccess
 
